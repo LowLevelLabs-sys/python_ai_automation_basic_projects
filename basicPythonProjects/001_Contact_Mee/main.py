@@ -1,5 +1,8 @@
 from contact_book import ContactBook
 
+# contacts object
+contacts = ContactBook()
+
 
 def main():
     while True:
@@ -16,16 +19,22 @@ def main():
             case 1:
                 name = input("Name: ")
                 number = int(input("Numbers: "))
-                contact = ContactBook()
-                contact.add(name, number)
+                contacts.add(name, number)
 
                 # want to save?
                 save = input("save contact?(y/n): ")
                 if save == "y":
-                    contact.save()
+                    contacts.save()
                     print("\ncontact is saved!\n")
             case 2:
-                pass
+                numbers = int(input("numbers: "))
+                myContact = contacts.search(numbers)
+
+                if myContact is None:
+                    print("contact not found!")
+                    continue
+
+                print(f"\nName: {myContact.name}, Numbers: {myContact.number}\n")
             case 3:
                 pass
             case 4:

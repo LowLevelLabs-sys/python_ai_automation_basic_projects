@@ -29,5 +29,9 @@ class ContactBook:
         with open("contact.json", "w") as c:
             json.dump(data, c)  # no need .write()
 
-    def search(self):
-        pass
+    def search(self, keyword):
+        for contact in self.contacts:
+            if contact.name == keyword or contact.number == keyword:
+                return contact
+        else:
+            return None
