@@ -18,7 +18,7 @@ def main():
         match option:
             case 1:
                 name = input("Name: ")
-                number = int(input("Numbers: "))
+                number = input("Numbers: ")
                 contacts.add(name, number)
 
                 # want to save?
@@ -27,8 +27,8 @@ def main():
                     contacts.save()
                     print("\ncontact is saved!\n")
             case 2:
-                numbers = int(input("numbers: "))
-                myContact = contacts.search(numbers)
+                keyword = input("keyword (name/numbers): ")
+                myContact = contacts.search(keyword)
 
                 if myContact is None:
                     print("contact not found!")
@@ -36,7 +36,20 @@ def main():
 
                 print(f"\nName: {myContact.name}, Numbers: {myContact.number}\n")
             case 3:
-                pass
+                keyword = input("search contact (name/number): ")
+                new_name = input("new name (empty?): ")
+                new_number = input("new number (empty?): ")
+
+                success = contacts.edit(
+                    keyword,
+                    new_name=new_name if new_name else None,
+                    new_number=new_number if new_number else None,
+                )
+
+                if success:
+                    print("\ncontact updated!\n")
+                else:
+                    print("\nContact not found!\n")
             case 4:
                 pass
             case _:
