@@ -49,3 +49,13 @@ class ContactBook:
                 return contact
         else:
             return None
+
+    def delete(self, keyword):
+        myContact = self.search(keyword)
+        if myContact is None:
+            return False
+
+        self.contacts.remove(myContact)
+        self.save()
+
+        return True

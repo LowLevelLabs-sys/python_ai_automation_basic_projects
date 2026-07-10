@@ -51,7 +51,13 @@ def main():
                 else:
                     print("\nContact not found!\n")
             case 4:
-                pass
+                keyword = input("search contacts (name/numbers): ")
+
+                success = contacts.delete(keyword)
+                if success:
+                    print("\nsuccessfully deleted!\n")
+                else:
+                    print("\ncontact not found!\n")
             case _:
                 print("\nGoodbye!")
                 break
