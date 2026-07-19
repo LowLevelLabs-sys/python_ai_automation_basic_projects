@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import requests
 import os
+import json
 
 load_dotenv()
 
@@ -13,7 +14,8 @@ class Gemini:
             "x-goog-api-key": self.API_KEY,
             "Content-Type": "application/json",
         }
-        self.previous_interaction_id = None
+
+        self.previous_interaction_id = self.read_previous_id()
 
     def get_chat(self, chat):
         body = {
@@ -22,17 +24,27 @@ class Gemini:
             # "stream": True,
             "store": True,
         }
-        # kalau previous_interaction_id sudah terisi
-        if self.previous_interaction_id:
+
+        # if the previous_interaction_id exist and not none
+        if self.previous_interaction_id is not None:
             body.update({"previous_interaction_id": self.previous_interaction_id})
 
         response = requests.post(self.base_url, headers=self.headers, json=body)
         response.raise_for_status()
 
-        self.set_id(response.json()["id"])
+        self.previous_interaction_id = response.json()["id"]
+        self.save_previous_id(response.json()["id"])
 
         return response.json()
 
-    # TODO: save to file
-    def set_id(self, id):
-        self.previous_interaction_id = id
+    def read_previous_id(self):
+        try:
+            with open("previous_interaction_id.json", "r") as target:
+                data = json.load(target)
+                return data["previous_interaction_id"]
+        except FileNotFoundError:
+            return None
+
+    def save_previous_id(self, id):
+        with open("previous_interaction_id.json", "w") as target:
+            json.dump({"previous_interaction_id": id}, target)

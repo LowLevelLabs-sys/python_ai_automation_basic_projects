@@ -2,3 +2,4 @@
 *.md
 !README.md
 __pycache__
+previous_interaction_id.json
